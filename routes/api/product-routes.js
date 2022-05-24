@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
       {
         model: Tag,
         through: ProductTag,
-        as: 'product_tags'
+        as: 'tagged_products'
       }
     ]
   }).then(productData => res.json(productData))
@@ -40,7 +40,7 @@ router.get('/:id', (req, res) => {
       {
         model: Tag,
         through: ProductTag,
-        as: 'product_tags'
+        as: 'tagged_products'
       }
     ]
   }).then(productData => {
@@ -133,7 +133,7 @@ router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
   Product.destroy({
     where: {
-      id: req.body.id
+      id: req.params.id
     }
   }).then(productData => {
     if (!productData) {

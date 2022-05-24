@@ -9,7 +9,9 @@ router.get('/', (req, res) => {
   Tag.findAll({
     include: [
       {
-        model: Product
+        model: Product,
+        through: ProductTag,
+        as: 'tagged_products'
       }
     ]
   }).then(tagData => res.json(tagData))
@@ -28,7 +30,9 @@ router.get('/:id', (req, res) => {
     },
     include: [
       {
-        model: Product
+        model: Product,
+        through: ProductTag,
+        as: 'tagged_products'
       }
     ]
 
@@ -59,9 +63,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
-  Tag.update({
-    tag_name: req.body.tag_name
-  },
+  Tag.update(req.body, 
   {
     where: {
       id: req.params.id
@@ -72,7 +74,7 @@ router.put('/:id', (req, res) => {
       res.status(404).json({ message: 'No tag with that ID found.'})
       return;
     }
-    res.json(dbPostData);
+    res.json(tagData);
   }).catch(err => {
     console.log(err);
     res.status(500).json(err);
@@ -83,7 +85,7 @@ router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
   Tag.destroy({
     where: {
-      id: req.body.id
+      id: req.params.id
     }
   }).then(tagData => {
     if (!tagData) {
