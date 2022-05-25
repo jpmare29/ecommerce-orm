@@ -15,4 +15,5 @@ tables, or one row/object as specified in the url parameters. The post routes cr
 row from the passed object in the json body of the request. The put routes update information
 in the database and the delete routes remove rows, both specified in the url parameters.
 Once the server begins listening on the specified port it can handle all of the respective
-route requests.
+route requests. The dotenv package from npm is used to protect sensitive data that needs to
+be passed to sequelize to connect to the database.
